@@ -25,5 +25,5 @@ class FAQ(models.Model) :
     ans = models.TextField(verbose_name='답변')
     writer = models.ForeignKey(verbose_name='작성자',to=User, on_delete=models.CASCADE, null=True, blank=True,related_name='writer_FAQ')
     created_at = models.DateTimeField(verbose_name='생성일시', auto_now_add=True)
-    writer2 = models.ForeignKey(verbose_name='최종 수정자',to=User, on_delete=models.CASCADE, null=True, blank=True)
+    writer2 = models.ForeignKey(verbose_name='최종 수정자',to=User, on_delete=models.CASCADE, null=True, blank=True,related_name='writer2_FAQ')
     modify_date = models.DateTimeField(verbose_name='최종 수정일시',auto_now=True,null=True, blank=True)
