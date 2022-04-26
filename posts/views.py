@@ -1,8 +1,11 @@
+from csv import writer
 from re import template
-from django.shortcuts import render
+from sys import orig_argv
+from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.list import ListView
 from .models import Post
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request) :
     return render(request, 'index.html')
@@ -13,8 +16,21 @@ def post_list_view(request) :
 def post_detail_view(request, id) :
     return render(request, 'posts/post_detail.html')
 
+@login_required
 def post_create_view(request) :
-    return render(request, 'posts/post_form.html')
+    if request.method == "GET" :
+        return render(request, 'posts/post_form.html')
+    else :
+        image = request.FILES.get('image')
+        content = request.POST.get('content')
+        print(image)
+        print(content)
+        Post.objects.create(
+            iamge=image,
+            content=content,
+            writer=request.user,
+        )
+        return redirect('index')   
 
 def post_update_view(request, id) :
     return render(request, 'posts/post_form.html')
